@@ -11,27 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* App.css */
-.title-column {
-  font-weight: bold;
-  color: #007bff; /* Синий цвет */
+.thumbnail-image {
+  cursor: pointer; 
 }
 
-.url-column {
-  font-style: italic;
-}
-
-.thumbnail-column img {
-  cursor: pointer;
+.thumbnail-column {
+  text-align: center;  
 }
 
 .error-message {
   color: red;
-  margin-top: 10px;
+  font-weight: bold; 
 }
-
-
-.modal-image {
-  max-width: 100%;
-}
-
