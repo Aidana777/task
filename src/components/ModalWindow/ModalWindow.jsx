@@ -7,10 +7,11 @@ function ModalWindow({ open, handleClose, imageURL }) {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Large Image</DialogTitle>
       <DialogContent>
-        <img src={imageURL} alt="Large" style={{ maxWidth: '100%' }} />
+        <img src={imageURL} alt="Large" className="modal-image" /> {/* Добавим класс для изображения */}
       </DialogContent>
     </Dialog>
   );
 }
 
 export default ModalWindow;
+
