@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import ModalWindow from './components/ModalWindow/ModalWindow';
 
+
+const API_KEY = "8c8e1a50-6322-4135-8875-5d40a5420d86";
+const API_URL_POPULAR = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1";
+
 function App() {
   const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -14,14 +18,25 @@ function App() {
   }, []);
 
   const fetchData = () => {
-    fetch('https://jsonplaceholder.typicode.com/photos')
+    fetch(API_URL_POPULAR, {
+      headers: {
+        'X-API-KEY': API_KEY
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         return response.json();
       })
-      .then(data => setData(data))
+      .then(data => {
+        // Преобразуем данные, добавив уникальные id к каждой строке
+        const rowsWithId = data.films.map((film, index) => ({
+          ...film,
+          id: film.filmId || index // Используем filmId, если он есть, или индекс, если нет
+        }));
+        setData(rowsWithId);
+      })
       .catch(error => {
         console.error('Error fetching data:', error);
         setError(error.message);
@@ -39,18 +54,18 @@ function App() {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'title', headerName: 'Title', width: 300, cellClassName: 'title-column' },
-    { field: 'url', headerName: 'URL', width: 300, cellClassName: 'url-column' },
+    { field: 'nameRu', headerName: 'Title', width: 300, cellClassName: 'title-column' },
+    { field: 'year', headerName: 'Year', width: 150 },
     {
-      field: 'thumbnailUrl',
-      headerName: 'Thumbnail',
+      field: 'posterUrl',
+      headerName: 'Poster',
       width: 200,
       renderCell: (params) => (
         <img
           src={params.value}
-          alt="Thumbnail"
+          alt="Poster"
           className="thumbnail-image" 
-          onClick={() => handleOpenModal(params.row.thumbnailUrl)}
+          onClick={() => handleOpenModal(params.row.posterUrl)}
         />
       ),
       cellClassName: 'thumbnail-column'
